@@ -1,23 +1,546 @@
 <!doctype html>
 <html lang="fr">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#10213b"><link rel="manifest" href="manifest.json"><title>Mes clients</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#10213b">
+<title>Mes clients</title>
+
 <style>
-*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f4f6fa;color:#172033}header{background:#10213b;color:#fff;padding:24px 18px 18px;border-radius:0 0 22px 22px}h1{margin:0 0 16px;font-size:28px}.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px}.stat{background:#fff1;border-radius:14px;padding:14px}.stat b{display:block;font-size:25px}.green{background:#168c55}.orange{background:#c88714}.red{background:#c7393f}.blue{background:#265b99}.container{padding:16px;max-width:800px;margin:auto}.search{width:100%;padding:14px 16px;border:1px solid #d9dfe8;border-radius:14px;font-size:16px;margin-bottom:14px}.servers{display:flex;gap:8px;overflow:auto;margin-bottom:14px}.chip{border:0;padding:9px 13px;border-radius:999px;background:#fff;box-shadow:0 1px 4px #0001}.chip.active{background:#10213b;color:#fff}.client{background:#fff;border-radius:15px;padding:15px;margin:9px 0;box-shadow:0 2px 8px #0000000b;display:flex;justify-content:space-between;align-items:center}.name{font-weight:700}.meta{font-size:13px;color:#657085;margin-top:5px}.badge{font-size:12px;font-weight:700;padding:7px 9px;border-radius:999px}.bgreen{background:#dcf7e8;color:#14733f}.borange{background:#fff0cf;color:#95600a}.bred{background:#ffe0e2;color:#a92128}.fab{position:fixed;right:20px;bottom:22px;width:58px;height:58px;border:0;border-radius:50%;background:#1677f5;color:white;font-size:30px;box-shadow:0 5px 18px #0003}.modal{position:fixed;inset:0;background:#0007;display:none;align-items:flex-end;justify-content:center}.modal.open{display:flex}.sheet{background:#fff;width:100%;max-width:800px;border-radius:22px 22px 0 0;padding:22px}.sheet h2{margin-top:0}.field{margin:12px 0}.field label{display:block;font-weight:700;margin-bottom:6px}.field input,.field select{width:100%;padding:13px;border:1px solid #d4dbe6;border-radius:11px;font-size:16px}.actions{display:flex;gap:10px;margin-top:18px}.btn{flex:1;padding:14px;border:0;border-radius:12px;font-weight:700;font-size:16px}.primary{background:#1677f5;color:white}.secondary{background:#e9edf3}.danger{background:#ffe0e2;color:#a92128}.detail{display:none}.detail.open{display:block}.back{background:none;border:0;padding:0 0 14px;font-size:16px}.renew{width:100%;padding:14px;border:0;border-radius:12px;background:#18a85a;color:#fff;font-size:17px;font-weight:700;margin:12px 0}.history{background:#f6f7f9;border-radius:12px;padding:12px}.empty{text-align:center;color:#687386;padding:35px}
-</style></head>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#f4f6fa;
+  color:#172033;
+}
+header{
+  background:#10213b;
+  color:white;
+  padding:28px 20px 30px;
+  border-radius:0 0 32px 32px;
+}
+header h1{
+  margin:0 0 25px;
+  font-size:34px;
+}
+.stats{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+}
+.stat{
+  padding:22px;
+  border-radius:22px;
+  color:white;
+}
+.stat strong{
+  display:block;
+  font-size:40px;
+  line-height:1;
+  margin-bottom:8px;
+}
+.stat span{font-size:18px}
+.blue{background:#2d67a8}
+.green{background:#15945b}
+.orange{background:#d39112}
+.red{background:#cc3841}
+
+.container{
+  padding:26px 20px 110px;
+  max-width:850px;
+  margin:auto;
+}
+.search{
+  width:100%;
+  padding:18px 20px;
+  border:1px solid #ddd;
+  border-radius:20px;
+  font-size:18px;
+  background:white;
+  outline:none;
+}
+.filters{
+  display:flex;
+  gap:10px;
+  overflow:auto;
+  padding:18px 0;
+}
+.filter{
+  border:0;
+  background:white;
+  padding:13px 22px;
+  border-radius:30px;
+  font-size:17px;
+  white-space:nowrap;
+}
+.filter.active{
+  background:#10213b;
+  color:white;
+}
+.card{
+  background:white;
+  border-radius:22px;
+  padding:20px;
+  margin:12px 0;
+  box-shadow:0 4px 15px #0000000d;
+  cursor:pointer;
+}
+.card-top{
+  display:flex;
+  justify-content:space-between;
+  gap:15px;
+  align-items:center;
+}
+.card h3{
+  margin:0 0 7px;
+  font-size:21px;
+}
+.card p{
+  margin:0;
+  color:#697386;
+  font-size:16px;
+}
+.badge{
+  padding:9px 13px;
+  border-radius:20px;
+  font-size:14px;
+  white-space:nowrap;
+}
+.badge.active{background:#dff6e9;color:#08763f}
+.badge.soon{background:#fff0c9;color:#9a6900}
+.badge.expired{background:#ffe0e2;color:#a71924}
+
+.empty{
+  text-align:center;
+  color:#8a93a3;
+  padding:60px 10px;
+  font-size:18px;
+}
+
+.fab{
+  position:fixed;
+  right:25px;
+  bottom:28px;
+  width:66px;
+  height:66px;
+  border:0;
+  border-radius:50%;
+  background:#1677ed;
+  color:white;
+  font-size:38px;
+  box-shadow:0 8px 25px #0003;
+}
+
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:#0008;
+  z-index:10;
+  align-items:flex-end;
+  justify-content:center;
+}
+.sheet{
+  background:white;
+  width:100%;
+  max-width:700px;
+  border-radius:28px 28px 0 0;
+  padding:25px;
+  max-height:90vh;
+  overflow:auto;
+}
+.sheet h2{
+  margin-top:0;
+}
+label{
+  display:block;
+  margin:16px 0 7px;
+  font-weight:bold;
+}
+input,select{
+  width:100%;
+  padding:15px;
+  border:1px solid #d5d9e0;
+  border-radius:14px;
+  font-size:17px;
+}
+.actions{
+  display:flex;
+  gap:10px;
+  margin-top:22px;
+}
+.actions button{
+  flex:1;
+  padding:15px;
+  border:0;
+  border-radius:15px;
+  font-size:17px;
+  font-weight:bold;
+}
+.primary{background:#1677ed;color:white}
+.secondary{background:#e9edf3}
+.danger{background:#d73540;color:white}
+.renew{background:#15945b;color:white}
+
+.detail-line{
+  padding:13px 0;
+  border-bottom:1px solid #eee;
+}
+.detail-line strong{
+  display:block;
+  margin-bottom:4px;
+}
+</style>
+</head>
+
 <body>
-<header><h1>Mes clients</h1><div class="stats"><div class="stat blue"><b id="total">0</b>Clients</div><div class="stat green"><b id="active">0</b>Actifs</div><div class="stat orange"><b id="soon">0</b>≤ 7 jours</div><div class="stat red"><b id="expired">0</b>Expirés</div></div></header>
-<div class="container" id="main"><input class="search" id="search" placeholder="🔎 Rechercher un client..."><div class="servers"><button class="chip active" data-server="Tous">Tous</button><button class="chip" data-server="Edge">Edge</button><button class="chip" data-server="ONline">ONline</button><button class="chip" data-server="Omega">Omega</button></div><div id="list"></div></div>
+
+<header>
+  <h1>Mes clients</h1>
+
+  <div class="stats">
+    <div class="stat blue">
+      <strong id="total">0</strong>
+      <span>Clients</span>
+    </div>
+
+    <div class="stat green">
+      <strong id="active">0</strong>
+      <span>Actifs</span>
+    </div>
+
+    <div class="stat orange">
+      <strong id="soon">0</strong>
+      <span>≤ 7 jours</span>
+    </div>
+
+    <div class="stat red">
+      <strong id="expired">0</strong>
+      <span>Expirés</span>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+
+  <input
+    id="search"
+    class="search"
+    placeholder="🔎 Rechercher un client..."
+  >
+
+  <div class="filters">
+    <button class="filter active" data-filter="Tous">Tous</button>
+    <button class="filter" data-filter="Edge">Edge</button>
+    <button class="filter" data-filter="ONline">ONline</button>
+    <button class="filter" data-filter="Omega">Omega</button>
+  </div>
+
+  <div id="main"></div>
+
+</div>
+
 <button class="fab" id="add">+</button>
-<div class="modal" id="modal"><div class="sheet"><h2 id="formTitle">Ajouter un client</h2><div class="field"><label>Nom du client</label><input id="name" autocomplete="off"></div><div class="field"><label>Serveur</label><select id="server"><option>Edge</option><option>ONline</option><option>Omega</option></select></div><div class="field"><label>Date d'expiration</label><input id="expiry" type="date"></div><div class="actions"><button class="btn secondary" id="cancel">Annuler</button><button class="btn primary" id="save">Enregistrer</button></div></div></div>
-<div class="modal" id="detailModal"><div class="sheet"><button class="back" id="closeDetail">← Retour</button><h2 id="detailName"></h2><div id="detailInfo"></div><button class="renew" id="renew">↻ Renouveler</button><div class="history"><b>Historique des renouvellements</b><div id="history"></div></div><div class="actions"><button class="btn danger" id="delete">Supprimer</button></div></div></div>
+
+<!-- AJOUT / MODIFICATION -->
+<div class="modal" id="modal">
+  <div class="sheet">
+
+    <h2 id="formTitle">Ajouter un client</h2>
+
+    <label>Nom du client</label>
+    <input id="name" autocomplete="off">
+
+    <label>Serveur</label>
+    <select id="server">
+      <option value="Edge">Edge</option>
+      <option value="ONline">ONline</option>
+      <option value="Omega">Omega</option>
+    </select>
+
+    <label>Date d'expiration</label>
+    <input id="expiry" type="date">
+
+    <div class="actions">
+      <button class="secondary" id="cancel">Annuler</button>
+      <button class="primary" id="save">Enregistrer</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- DÉTAIL -->
+<div class="modal" id="detailModal">
+  <div class="sheet">
+
+    <h2 id="detailName"></h2>
+
+    <div class="detail-line">
+      <strong>Serveur</strong>
+      <span id="detailServer"></span>
+    </div>
+
+    <div class="detail-line">
+      <strong>Date d'expiration</strong>
+      <span id="detailExpiry"></span>
+    </div>
+
+    <div class="actions">
+      <button class="secondary" id="closeDetail">Fermer</button>
+      <button class="primary" id="editDetail">Modifier</button>
+    </div>
+
+    <!-- BOUTON RENOUVELER CONSERVÉ -->
+    <div class="actions">
+      <button class="renew" id="renew">Renouveler</button>
+      <button class="danger" id="delete">Supprimer</button>
+    </div>
+
+  </div>
+</div>
+
 <script>
-const KEY='mesClientsV1';let clients=JSON.parse(localStorage.getItem(KEY)||'[]');let editing=null;let selectedServer='Tous';
-const $=id=>document.getElementById(id);function saveData(){localStorage.setItem(KEY,JSON.stringify(clients))}function dayDiff(d){const a=new Date();a.setHours(0,0,0,0);const b=new Date(d+'T00:00:00');return Math.ceil((b-a)/86400000)}function status(c){let d=dayDiff(c.expiry);return d<0?['Expiré','bred']:d<=7?['≤ 7 jours','borange']:['Actif','bgreen']}function fmt(d){return new Intl.DateTimeFormat('fr-CA',{day:'numeric',month:'short',year:'numeric'}).format(new Date(d+'T00:00:00'))}
-function render(){const q=$('search').value.toLowerCase();let arr=clients.filter(c=>(selectedServer==='Tous'||c.server===selectedServer)&&c.name.toLowerCase().includes(q)).sort((a,b)=>a.expiry.localeCompare(b.expiry));$('total').textContent=clients.length;$('active').textContent=clients.filter(c=>dayDiff(c.expiry)>7).length;$('soon').textContent=clients.filter(c=>dayDiff(c.expiry)>=0&&dayDiff(c.expiry)<=7).length;$('expired').textContent=clients.filter(c=>dayDiff(c.expiry)<0).length;$('list').innerHTML=arr.length?arr.map(c=>{const s=status(c);return `<div class="client" onclick="openDetail('${c.id}')"><div><div class="name">${esc(c.name)}</div><div class="meta">${c.server} · ${fmt(c.expiry)}</div></div><span class="badge ${s[1]}">${s[0]}</span></div>`}).join(''):'<div class="empty">Aucun client trouvé</div>'}
-function esc(s){return s.replace(/[&<>'"]/g,x=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[x]))}
-$('add').onclick=()=>{editing=null;$('formTitle').textContent='Ajouter un client';$('name').value='';$('server').value='Edge';$('expiry').value='';$('modal').classList.add('open')};$('cancel').onclick=()=>$('modal').classList.remove('open');$('save').onclick=()=>{const name=$('name').value.trim(),expiry=$('expiry').value;if(!name||!expiry)return alert('Veuillez remplir le nom et la date.');if(editing){const c=clients.find(x=>x.id===editing);c.name=name;c.server=$('server').value;c.expiry=expiry}else clients.push({id:crypto.randomUUID(),name,server:$('server').value,expiry,history:[]});saveData();$('modal').classList.remove('open');render()};$('search').oninput=render;document.querySelectorAll('.chip').forEach(b=>b.onclick=()=>{document.querySelectorAll('.chip').forEach(x=>x.classList.remove('active'));b.classList.add('active');selectedServer=b.dataset.server;render()});
-function openDetail(id){const c=clients.find(x=>x.id===id);$('detailName').textContent=c.name;const s=status(c),d=dayDiff(c.expiry);$('detailInfo').innerHTML=`<p><b>Serveur :</b> ${c.server}</p><p><b>Date d'expiration :</b> ${fmt(c.expiry)}</p><span class="badge ${s[1]}">${d<0?'Expiré depuis '+Math.abs(d)+' jour(s)':d===0?'Expire aujourd’hui':'Expire dans '+d+' jour(s)'}</span>`;$('history').innerHTML=(c.history||[]).length?c.history.map(x=>`<p>📅 ${fmt(x)}</p>`).join(''):'<p>Aucun renouvellement précédent.</p>';$('detailModal').dataset.id=id;$('detailModal').classList.add('open')}
-$('closeDetail').onclick=()=>$('detailModal').classList.remove('open');$('renew').onclick=()=>{const c=clients.find(x=>x.id===$('detailModal').dataset.id);const old=c.expiry;const base=new Date(Math.max(new Date(old+'T00:00:00').getTime(),Date.now()));base.setDate(base.getDate()+30);c.history=c.history||[];c.history.unshift(old);c.expiry=base.toISOString().slice(0,10);saveData();openDetail(c.id);render()};$('delete').onclick=()=>{const id=$('detailModal').dataset.id;if(confirm('Supprimer ce client ?')){clients=clients.filter(c=>c.id!==id);saveData();$('detailModal').classList.remove('open');render()}};render();
-</script></body></html>
+const KEY='mesClientsV1';
+
+let clients=JSON.parse(localStorage.getItem(KEY)||'[]');
+let editing=null;
+let selectedId=null;
+let currentFilter='Tous';
+
+const $=id=>document.getElementById(id);
+
+function saveData(){
+  localStorage.setItem(KEY,JSON.stringify(clients));
+}
+
+function today(){
+  const d=new Date();
+  d.setHours(0,0,0,0);
+  return d;
+}
+
+function dateFromString(s){
+  const [y,m,d]=s.split('-').map(Number);
+  return new Date(y,m-1,d);
+}
+
+function daysLeft(date){
+  const diff=dateFromString(date)-today();
+  return Math.ceil(diff/86400000);
+}
+
+function status(client){
+  const days=daysLeft(client.expiry);
+
+  if(days<0){
+    return {type:'expired',text:'Expiré'};
+  }
+
+  if(days<=7){
+    return {
+      type:'soon',
+      text:days===0?'Aujourd’hui':days===1?'1 jour':days+' jours'
+    };
+  }
+
+  return {type:'active',text:'Actif'};
+}
+
+function formatDate(date){
+  return dateFromString(date).toLocaleDateString('fr-CA',{
+    day:'numeric',
+    month:'short',
+    year:'numeric'
+  });
+}
+
+function esc(s){
+  return String(s).replace(/[&<>"']/g,m=>({
+    '&':'&amp;',
+    '<':'&lt;',
+    '>':'&gt;',
+    '"':'&quot;',
+    "'":'&#039;'
+  }[m]));
+}
+
+function render(){
+
+  const q=$('search').value.trim().toLowerCase();
+
+  const filtered=clients
+    .filter(c=>currentFilter==='Tous'||c.server===currentFilter)
+    .filter(c=>
+      c.name.toLowerCase().includes(q) ||
+      c.server.toLowerCase().includes(q)
+    )
+    .sort((a,b)=>dateFromString(a.expiry)-dateFromString(b.expiry));
+
+  $('total').textContent=clients.length;
+  $('active').textContent=clients.filter(c=>status(c).type==='active').length;
+  $('soon').textContent=clients.filter(c=>status(c).type==='soon').length;
+  $('expired').textContent=clients.filter(c=>status(c).type==='expired').length;
+
+  if(!filtered.length){
+    $('main').innerHTML='<div class="empty">Aucun client trouvé</div>';
+    return;
+  }
+
+  $('main').innerHTML=filtered.map(c=>{
+    const s=status(c);
+
+    return `
+      <div class="card" onclick="openDetail('${c.id}')">
+        <div class="card-top">
+          <div>
+            <h3>${esc(c.name)}</h3>
+            <p>${esc(c.server)} · ${formatDate(c.expiry)}</p>
+          </div>
+          <span class="badge ${s.type}">
+            ${s.type==='active'?'Actif':s.type==='expired'?'Expiré':'≤ 7 jours'}
+          </span>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+$('search').addEventListener('input',render);
+
+document.querySelectorAll('.filter').forEach(btn=>{
+  btn.onclick=()=>{
+    document.querySelectorAll('.filter')
+      .forEach(b=>b.classList.remove('active'));
+
+    btn.classList.add('active');
+    currentFilter=btn.dataset.filter;
+    render();
+  };
+});
+
+$('add').onclick=()=>{
+  editing=null;
+  $('formTitle').textContent='Ajouter un client';
+  $('name').value='';
+  $('server').value='Edge';
+  $('expiry').value='';
+  $('modal').style.display='flex';
+};
+
+$('cancel').onclick=()=>{
+  $('modal').style.display='none';
+};
+
+$('save').onclick=()=>{
+
+  const name=$('name').value.trim();
+  const server=$('server').value;
+  const expiry=$('expiry').value;
+
+  if(!name||!expiry){
+    alert('Veuillez remplir tous les champs.');
+    return;
+  }
+
+  if(editing){
+    const c=clients.find(x=>x.id===editing);
+
+    if(c){
+      c.name=name;
+      c.server=server;
+      c.expiry=expiry;
+    }
+
+  }else{
+
+    clients.push({
+      id:Date.now().toString(),
+      name,
+      server,
+      expiry
+    });
+
+  }
+
+  saveData();
+  $('modal').style.display='none';
+  render();
+};
+
+window.openDetail=id=>{
+  const c=clients.find(x=>x.id===id);
+  if(!c)return;
+
+  selectedId=id;
+
+  $('detailName').textContent=c.name;
+  $('detailServer').textContent=c.server;
+  $('detailExpiry').textContent=formatDate(c.expiry);
+
+  $('detailModal').style.display='flex';
+};
+
+$('closeDetail').onclick=()=>{
+  $('detailModal').style.display='none';
+};
+
+$('editDetail').onclick=()=>{
+  const c=clients.find(x=>x.id===selectedId);
+  if(!c)return;
+
+  editing=c.id;
+
+  $('formTitle').textContent='Modifier le client';
+  $('name').value=c.name;
+  $('server').value=c.server;
+  $('expiry').value=c.expiry;
+
+  $('detailModal').style.display='none';
+  $('modal').style.display='flex';
+};
+
+/*
+  RENOUVELLEMENT ACTUEL :
+  +30 jours
+*/
+$('renew').onclick=()=>{
+  const c=clients.find(x=>x.id===selectedId);
+  if(!c)return;
+
+  const base=daysLeft(c.expiry)<0 ? today() : dateFromString(c.expiry);
+
+  base.setDate(base.getDate()+30);
+
+  const y=base.getFullYear();
+  const m=String(base.getMonth()+1).padStart(2,'0');
+  const d=String(base.getDate()).padStart(2,'0');
+
+  c.expiry=`${y}-${m}-${d}`;
+
+  saveData();
+
+  $('detailExpiry').textContent=formatDate(c.expiry);
+
+  render();
+};
+
+$('delete').onclick=()=>{
+  const c=clients.find(x=>x.id===selectedId);
+  if(!c)return;
+
+  if(!confirm('Supprimer ce client ?'))return;
+
+  clients=clients.filter(x=>x.id!==selectedId);
+
+  saveData();
+
+  $('detailModal').style.display='none';
+  render();
+};
+
+render();
+</script>
+
+</body>
+</html>
