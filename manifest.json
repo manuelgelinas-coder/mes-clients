@@ -1,6 +1,7 @@
 {
   "name": "Mes clients",
   "short_name": "Clients",
+  "description": "Application de gestion de mes clients",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#f4f6fa",
