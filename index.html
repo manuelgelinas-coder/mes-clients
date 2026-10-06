@@ -1,552 +1,315 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#10213b">
-<title>Mes clients</title>
-  
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#111827">
 <link rel="manifest" href="manifest.json">
+<title>Mes clients</title>
 <style>
-*{box-sizing:border-box}
-body{
-  margin:0;
-  font-family:Arial,sans-serif;
-  background:#f4f6fa;
-  color:#172033;
-}
-header{
-  background:#10213b;
-  color:white;
-  padding:28px 20px 30px;
-  border-radius:0 0 32px 32px;
-}
-header h1{
-  margin:0 0 25px;
-  font-size:34px;
-}
-.stats{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:14px;
-}
-.stat{
-  padding:22px;
-  border-radius:22px;
-  color:white;
-}
-.stat strong{
-  display:block;
-  font-size:40px;
-  line-height:1;
-  margin-bottom:8px;
-}
-.stat span{font-size:18px}
-.blue{background:#2d67a8}
-.green{background:#15945b}
-.orange{background:#d39112}
-.red{background:#cc3841}
-
-.container{
-  padding:26px 20px 110px;
-  max-width:850px;
-  margin:auto;
-}
-.search{
-  width:100%;
-  padding:18px 20px;
-  border:1px solid #ddd;
-  border-radius:20px;
-  font-size:18px;
-  background:white;
-  outline:none;
-}
-.filters{
-  display:flex;
-  gap:10px;
-  overflow:auto;
-  padding:18px 0;
-}
-.filter{
-  border:0;
-  background:white;
-  padding:13px 22px;
-  border-radius:30px;
-  font-size:17px;
-  white-space:nowrap;
-}
-.filter.active{
-  background:#10213b;
-  color:white;
-}
-.card{
-  background:white;
-  border-radius:22px;
-  padding:20px;
-  margin:12px 0;
-  box-shadow:0 4px 15px #0000000d;
-  cursor:pointer;
-}
-.card-top{
-  display:flex;
-  justify-content:space-between;
-  gap:15px;
-  align-items:center;
-}
-.card h3{
-  margin:0 0 7px;
-  font-size:21px;
-}
-.card p{
-  margin:0;
-  color:#697386;
-  font-size:16px;
-}
-.badge{
-  padding:9px 13px;
-  border-radius:20px;
-  font-size:14px;
-  white-space:nowrap;
-}
-.badge.active{background:#dff6e9;color:#08763f}
-.badge.soon{background:#fff0c9;color:#9a6900}
-.badge.expired{background:#ffe0e2;color:#a71924}
-
-.empty{
-  text-align:center;
-  color:#8a93a3;
-  padding:60px 10px;
-  font-size:18px;
-}
-
-.fab{
-  position:fixed;
-  right:25px;
-  bottom:28px;
-  width:66px;
-  height:66px;
-  border:0;
-  border-radius:50%;
-  background:#1677ed;
-  color:white;
-  font-size:38px;
-  box-shadow:0 8px 25px #0003;
-}
-
-.modal{
-  display:none;
-  position:fixed;
-  inset:0;
-  background:#0008;
-  z-index:10;
-  align-items:flex-end;
-  justify-content:center;
-}
-.sheet{
-  background:white;
-  width:100%;
-  max-width:700px;
-  border-radius:28px 28px 0 0;
-  padding:25px;
-  max-height:90vh;
-  overflow:auto;
-}
-.sheet h2{
-  margin-top:0;
-}
-label{
-  display:block;
-  margin:16px 0 7px;
-  font-weight:bold;
-}
-input,select{
-  width:100%;
-  padding:15px;
-  border:1px solid #d5d9e0;
-  border-radius:14px;
-  font-size:17px;
-}
-.actions{
-  display:flex;
-  gap:10px;
-  margin-top:22px;
-}
-.actions button{
-  flex:1;
-  padding:15px;
-  border:0;
-  border-radius:15px;
-  font-size:17px;
-  font-weight:bold;
-}
-.primary{background:#1677ed;color:white}
-.secondary{background:#e9edf3}
-.danger{background:#d73540;color:white}
-.renew{background:#15945b;color:white}
-
-.detail-line{
-  padding:13px 0;
-  border-bottom:1px solid #eee;
-}
-.detail-line strong{
-  display:block;
-  margin-bottom:4px;
-}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f3f4f6;color:#111827}
+  .app{max-width:1000px;margin:auto;padding:18px}
+  h1{margin:0 0 16px;font-size:30px}
+  .stats,.servers{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px}
+  .servers{grid-template-columns:repeat(3,1fr)}
+  .card{border:0;border-radius:16px;padding:14px;box-shadow:0 2px 8px rgba(0,0,0,.10);cursor:pointer;background:white}
+  .stat-title{font-size:14px;font-weight:700}.stat-number{font-size:27px;font-weight:800;margin-top:4px}
+  .blue{background:#dbeafe;color:#1d4ed8}.green{background:#dcfce7;color:#15803d}
+  .orange{background:#ffedd5;color:#c2410c}.red{background:#fee2e2;color:#b91c1c}
+  .edge{background:#e7d2bd;color:#7c4a22}.online{background:#e5e7eb;color:#374151}.omega{background:#fef3c7;color:#a16207}
+  .toolbar{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0}
+  input,select,button{font:inherit}
+  input,select{padding:12px;border:1px solid #d1d5db;border-radius:12px;background:white}
+  #search{flex:1;min-width:180px}
+  button{border:0;border-radius:12px;padding:12px 16px;font-weight:700;cursor:pointer}
+  .primary{background:#111827;color:white}
+  .secondary{background:white;border:1px solid #d1d5db}
+  .client{background:white;border-radius:16px;margin:12px 0;padding:16px;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+  .client-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px}
+  .client-name{font-size:20px;font-weight:800}
+  .meta{font-size:13px;color:#6b7280;margin-top:3px}
+  .subs{display:grid;gap:8px}
+  .sub{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:11px 12px;border-radius:12px;background:#f9fafb;border-left:6px solid #9ca3af}
+  .sub.edge{border-left-color:#9a6a3a}.sub.online{border-left-color:#9ca3af}.sub.omega{border-left-color:#d4a017}
+  .date{font-weight:700}
+  .badge{display:inline-block;padding:5px 8px;border-radius:999px;font-size:12px;font-weight:800;margin-left:6px}
+  .badge.active{background:#dcfce7;color:#166534}.badge.soon{background:#ffedd5;color:#9a3412}.badge.expired{background:#fee2e2;color:#991b1b}
+  .actions{display:flex;gap:7px;margin-top:12px}
+  .empty{text-align:center;padding:30px;color:#6b7280}
+  dialog{border:0;border-radius:18px;width:min(680px,calc(100% - 28px));padding:0;box-shadow:0 20px 60px rgba(0,0,0,.25)}
+  dialog::backdrop{background:rgba(0,0,0,.45)}
+  .modal{padding:20px}.modal h2{margin-top:0}
+  label{display:block;font-weight:700;margin:12px 0 6px}
+  .choices{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  .choice{padding:12px;background:#f3f4f6;border-radius:12px;text-align:center;border:2px solid transparent;cursor:pointer}
+  .choice.selected{border-color:#111827;background:#e5e7eb}
+  .server-row{display:grid;grid-template-columns:1fr 1fr auto;gap:8px;align-items:end;margin:8px 0}
+  .server-row select,.server-row input{width:100%}
+  .remove{background:#fee2e2;color:#991b1b;padding:10px}
+  .modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:18px}
+  @media(max-width:700px){
+    .stats{grid-template-columns:repeat(2,1fr)}
+    .servers{grid-template-columns:1fr}
+    .server-row{grid-template-columns:1fr 1fr}
+    .server-row .remove{grid-column:1/-1}
+  }
 </style>
 </head>
-
 <body>
-
-<header>
+<div class="app">
   <h1>Mes clients</h1>
 
   <div class="stats">
-    <div class="stat blue">
-      <strong id="total">0</strong>
-      <span>Clients</span>
-    </div>
-
-    <div class="stat green">
-      <strong id="active">0</strong>
-      <span>Actifs</span>
-    </div>
-
-    <div class="stat orange">
-      <strong id="soon">0</strong>
-      <span>≤ 7 jours</span>
-    </div>
-
-    <div class="stat red">
-      <strong id="expired">0</strong>
-      <span>Expirés</span>
-    </div>
-  </div>
-</header>
-
-<div class="container">
-
-  <input
-    id="search"
-    class="search"
-    placeholder="🔎 Rechercher un client..."
-  >
-
-  <div class="filters">
-    <button class="filter active" data-filter="Tous">Tous</button>
-    <button class="filter" data-filter="Edge">Edge</button>
-    <button class="filter" data-filter="ONline">ONline</button>
-    <button class="filter" data-filter="Omega">Omega</button>
+    <div class="card blue" data-status="all"><div class="stat-title">Clients</div><div class="stat-number" id="countClients">0</div></div>
+    <div class="card green" data-status="active"><div class="stat-title">Actifs</div><div class="stat-number" id="countActive">0</div></div>
+    <div class="card orange" data-status="soon"><div class="stat-title">≤ 7 jours</div><div class="stat-number" id="countSoon">0</div></div>
+    <div class="card red" data-status="expired"><div class="stat-title">Expirés</div><div class="stat-number" id="countExpired">0</div></div>
   </div>
 
-  <div id="main"></div>
+  <div class="servers">
+    <div class="card edge" data-server="Edge"><div class="stat-title">Edge</div><div class="stat-number" id="countEdge">0</div></div>
+    <div class="card online" data-server="ONline"><div class="stat-title">ONline</div><div class="stat-number" id="countONline">0</div></div>
+    <div class="card omega" data-server="Omega"><div class="stat-title">Omega</div><div class="stat-number" id="countOmega">0</div></div>
+  </div>
 
-</div>
-
-<button class="fab" id="add">+</button>
-
-<!-- AJOUT / MODIFICATION -->
-<div class="modal" id="modal">
-  <div class="sheet">
-
-    <h2 id="formTitle">Ajouter un client</h2>
-
-    <label>Nom du client</label>
-    <input id="name" autocomplete="off">
-
-    <label>Serveur</label>
-    <select id="server">
-      <option value="Edge">Edge</option>
-      <option value="ONline">ONline</option>
-      <option value="Omega">Omega</option>
+  <div class="toolbar">
+    <input id="search" type="search" placeholder="Rechercher un client...">
+    <select id="sort">
+      <option value="az">Ordre alphabétique (A → Z)</option>
+      <option value="za">Ordre alphabétique (Z → A)</option>
+      <option value="near">Date de renouvellement — plus proche</option>
+      <option value="far">Date de renouvellement — plus éloignée</option>
     </select>
-
-    <label>Date d'expiration</label>
-    <input id="expiry" type="date">
-
-    <div class="actions">
-      <button class="secondary" id="cancel">Annuler</button>
-      <button class="primary" id="save">Enregistrer</button>
-    </div>
-
+    <button class="primary" id="addBtn">+ Ajouter un client</button>
   </div>
+
+  <div id="activeFilters"></div>
+  <div id="list"></div>
 </div>
 
-<!-- DÉTAIL -->
-<div class="modal" id="detailModal">
-  <div class="sheet">
+<dialog id="dlg">
+  <form method="dialog" class="modal" id="clientForm">
+    <h2 id="modalTitle">Ajouter un client</h2>
+    <input type="hidden" id="editId">
 
-    <h2 id="detailName"></h2>
+    <label for="name">Nom du client</label>
+    <input id="name" required style="width:100%" placeholder="Nom">
 
-    <div class="detail-line">
-      <strong>Serveur</strong>
-      <span id="detailServer"></span>
+    <label>Nombre d'abonnements</label>
+    <div class="choices" id="subChoices">
+      <div class="choice selected" data-value="1">1 abonnement</div>
+      <div class="choice" data-value="2">2 abonnements</div>
+      <div class="choice" data-value="3">3 abonnements et +</div>
     </div>
 
-    <div class="detail-line">
-      <strong>Date d'expiration</strong>
-      <span id="detailExpiry"></span>
+    <label>Nombre d'appareils</label>
+    <div class="choices" id="deviceChoices">
+      <div class="choice selected" data-value="1">1 appareil</div>
+      <div class="choice" data-value="2">2 appareils</div>
+      <div class="choice" data-value="3">3 appareils</div>
+      <div class="choice" data-value="4">4 appareils</div>
+      <div class="choice" data-value="5">5 appareils</div>
     </div>
 
-    <div class="actions">
-      <button class="secondary" id="closeDetail">Fermer</button>
-      <button class="primary" id="editDetail">Modifier</button>
-    </div>
+    <label>Abonnements</label>
+    <div id="serverRows"></div>
+    <button type="button" class="secondary" id="addServer">+ Ajouter un abonnement</button>
 
-    <!-- BOUTON RENOUVELER CONSERVÉ -->
-    <div class="actions">
-      <button class="renew" id="renew">Renouveler</button>
-      <button class="danger" id="delete">Supprimer</button>
+    <div class="modal-actions">
+      <button type="button" class="secondary" id="cancelBtn">Annuler</button>
+      <button type="submit" class="primary">Enregistrer</button>
     </div>
-
-  </div>
-</div>
+  </form>
+</dialog>
 
 <script>
-const KEY='mesClientsV1';
+const KEY='mes-clients-v2';
+let clients=[];
+try{clients=JSON.parse(localStorage.getItem(KEY)||'[]')}catch(e){clients=[]}
 
-let clients=JSON.parse(localStorage.getItem(KEY)||'[]');
-let editing=null;
-let selectedId=null;
-let currentFilter='Tous';
+let statusFilter='all';
+let serverFilter='all';
+let sortMode='az';
 
 const $=id=>document.getElementById(id);
+const dlg=$('dlg');
 
-function saveData(){
-  localStorage.setItem(KEY,JSON.stringify(clients));
-}
-
-function today(){
-  const d=new Date();
-  d.setHours(0,0,0,0);
-  return d;
-}
-
-function dateFromString(s){
-  const [y,m,d]=s.split('-').map(Number);
-  return new Date(y,m-1,d);
-}
+function save(){localStorage.setItem(KEY,JSON.stringify(clients));render();}
 
 function daysLeft(date){
-  const diff=dateFromString(date)-today();
-  return Math.ceil(diff/86400000);
+  const d=new Date(date+'T23:59:59');
+  const now=new Date();
+  return Math.ceil((d-now)/86400000);
+}
+function statusOf(date){
+  const d=daysLeft(date);
+  if(d<0)return'expired';
+  if(d<=7)return'soon';
+  return'active';
+}
+function fmt(date){
+  if(!date)return'';
+  const p=date.split('-'); return p.length===3 ? p[2]+'/'+p[1]+'/'+p[0] : date;
+}
+function earliest(c){
+  return c.servers.length ? Math.min(...c.servers.map(s=>new Date(s.expiry+'T23:59:59').getTime())) : Infinity;
 }
 
-function status(client){
-  const days=daysLeft(client.expiry);
-
-  if(days<0){
-    return {type:'expired',text:'Expiré'};
+function filtered(){
+  const q=$('search').value.trim().toLowerCase();
+  let arr=clients.filter(c=>c.name.toLowerCase().includes(q));
+  if(statusFilter!=='all'){
+    arr=arr.filter(c=>c.servers.some(s=>statusOf(s.expiry)===statusFilter));
   }
-
-  if(days<=7){
-    return {
-      type:'soon',
-      text:days===0?'Aujourd’hui':days===1?'1 jour':days+' jours'
-    };
+  if(serverFilter!=='all'){
+    arr=arr.filter(c=>c.servers.some(s=>s.server===serverFilter));
   }
-
-  return {type:'active',text:'Actif'};
-}
-
-function formatDate(date){
-  return dateFromString(date).toLocaleDateString('fr-CA',{
-    day:'numeric',
-    month:'short',
-    year:'numeric'
+  arr.sort((a,b)=>{
+    if(sortMode==='az')return a.name.localeCompare(b.name,'fr',{sensitivity:'base'});
+    if(sortMode==='za')return b.name.localeCompare(a.name,'fr',{sensitivity:'base'});
+    const x=earliest(a),y=earliest(b);
+    return sortMode==='near'?x-y:y-x;
   });
-}
-
-function esc(s){
-  return String(s).replace(/[&<>"']/g,m=>({
-    '&':'&amp;',
-    '<':'&lt;',
-    '>':'&gt;',
-    '"':'&quot;',
-    "'":'&#039;'
-  }[m]));
+  return arr;
 }
 
 function render(){
+  let totalServers=0,active=0,soon=0,expired=0,edge=0,online=0,omega=0;
+  clients.forEach(c=>c.servers.forEach(s=>{
+    totalServers++;
+    const st=statusOf(s.expiry);
+    if(st==='active')active++; if(st==='soon')soon++; if(st==='expired')expired++;
+    if(s.server==='Edge')edge++; if(s.server==='ONline')online++; if(s.server==='Omega')omega++;
+  }));
+  $('countClients').textContent=clients.length;
+  $('countActive').textContent=active;
+  $('countSoon').textContent=soon;
+  $('countExpired').textContent=expired;
+  $('countEdge').textContent=edge;
+  $('countONline').textContent=online;
+  $('countOmega').textContent=omega;
 
-  const q=$('search').value.trim().toLowerCase();
+  const filters=[];
+  if(statusFilter!=='all')filters.push(statusFilter==='active'?'Actifs':statusFilter==='soon'?'≤ 7 jours':'Expirés');
+  if(serverFilter!=='all')filters.push(serverFilter);
+  $('activeFilters').innerHTML=filters.length
+    ? '<div style="margin:8px 0;color:#374151;font-weight:700">Filtre : '+filters.join(' • ')+' <button type="button" class="secondary" id="clearFilters" style="padding:6px 10px;margin-left:6px">Effacer</button></div>'
+    : '';
+  const clear=$('clearFilters'); if(clear)clear.onclick=()=>{statusFilter='all';serverFilter='all';render()};
 
-  const filtered=clients
-    .filter(c=>currentFilter==='Tous'||c.server===currentFilter)
-    .filter(c=>
-      c.name.toLowerCase().includes(q) ||
-      c.server.toLowerCase().includes(q)
-    )
-    .sort((a,b)=>dateFromString(a.expiry)-dateFromString(b.expiry));
-
-  $('total').textContent=clients.length;
-  $('active').textContent=clients.filter(c=>status(c).type==='active').length;
-  $('soon').textContent=clients.filter(c=>status(c).type==='soon').length;
-  $('expired').textContent=clients.filter(c=>status(c).type==='expired').length;
-
-  if(!filtered.length){
-    $('main').innerHTML='<div class="empty">Aucun client trouvé</div>';
-    return;
-  }
-
-  $('main').innerHTML=filtered.map(c=>{
-    const s=status(c);
-
-    return `
-      <div class="card" onclick="openDetail('${c.id}')">
-        <div class="card-top">
-          <div>
-            <h3>${esc(c.name)}</h3>
-            <p>${esc(c.server)} · ${formatDate(c.expiry)}</p>
-          </div>
-          <span class="badge ${s.type}">
-            ${s.type==='active'?'Actif':s.type==='expired'?'Expiré':'≤ 7 jours'}
-          </span>
-        </div>
+  const list=$('list');
+  const arr=filtered();
+  if(!arr.length){list.innerHTML='<div class="empty">Aucun client à afficher.</div>';return;}
+  list.innerHTML=arr.map(c=>{
+    const rows=c.servers.map((s,i)=>{
+      const st=statusOf(s.expiry), dl=daysLeft(s.expiry);
+      const label=st==='expired'?'Expiré':(dl===0?'Expire aujourd’hui':dl+' jour'+(dl>1?'s':''));
+      return `<div class="sub ${s.server.toLowerCase()}">
+        <div><strong>${escapeHtml(s.server)}</strong><div class="meta">Expiration : <span class="date">${fmt(s.expiry)}</span></div></div>
+        <span class="badge ${st}">${label}</span>
+      </div>`;
+    }).join('');
+    return `<div class="client">
+      <div class="client-head">
+        <div><div class="client-name">${escapeHtml(c.name)}</div><div class="meta">${c.servers.length} abonnement${c.servers.length>1?'s':''} • ${c.devices} appareil${c.devices>1?'s':''}</div></div>
       </div>
-    `;
+      <div class="subs">${rows}</div>
+      <div class="actions">
+        <button class="secondary edit" data-id="${c.id}">Modifier</button>
+        <button class="secondary del" data-id="${c.id}">Supprimer</button>
+      </div>
+    </div>`;
   }).join('');
+
+  document.querySelectorAll('.edit').forEach(b=>b.onclick=()=>openEdit(b.dataset.id));
+  document.querySelectorAll('.del').forEach(b=>b.onclick=()=>{
+    if(confirm('Supprimer ce client ?')){clients=clients.filter(c=>c.id!==b.dataset.id);save();}
+  });
 }
 
-$('search').addEventListener('input',render);
+function escapeHtml(s){
+  return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
+}
 
-document.querySelectorAll('.filter').forEach(btn=>{
-  btn.onclick=()=>{
-    document.querySelectorAll('.filter')
-      .forEach(b=>b.classList.remove('active'));
+function setChoice(group,value){
+  document.querySelectorAll('#'+group+' .choice').forEach(x=>x.classList.toggle('selected',x.dataset.value===String(value)));
+}
+function getChoice(group){
+  return Number(document.querySelector('#'+group+' .choice.selected')?.dataset.value||1);
+}
 
-    btn.classList.add('active');
-    currentFilter=btn.dataset.filter;
-    render();
-  };
+function addRow(data={server:'Edge',expiry:''}){
+  const row=document.createElement('div');
+  row.className='server-row';
+  row.innerHTML=`<div><label>Serveur</label><select class="srv">
+    <option>Edge</option><option>ONline</option><option>Omega</option>
+  </select></div>
+  <div><label>Date d'expiration</label><input class="exp" type="date" required></div>
+  <button type="button" class="remove">Supprimer</button>`;
+  row.querySelector('.srv').value=data.server;
+  row.querySelector('.exp').value=data.expiry;
+  row.querySelector('.remove').onclick=()=>row.remove();
+  $('serverRows').appendChild(row);
+}
+
+function openNew(){
+  $('modalTitle').textContent='Ajouter un client';
+  $('editId').value=''; $('name').value='';
+  setChoice('subChoices',1); setChoice('deviceChoices',1);
+  $('serverRows').innerHTML=''; addRow();
+  dlg.showModal();
+}
+function openEdit(id){
+  const c=clients.find(x=>x.id===id); if(!c)return;
+  $('modalTitle').textContent='Modifier un client';
+  $('editId').value=c.id; $('name').value=c.name;
+  setChoice('subChoices',Math.min(3,c.servers.length));
+  setChoice('deviceChoices',Math.min(5,Math.max(1,Number(c.devices)||1)));
+  $('serverRows').innerHTML='';
+  c.servers.forEach(s=>addRow(s));
+  dlg.showModal();
+}
+
+document.querySelectorAll('#subChoices .choice').forEach(x=>x.onclick=()=>{
+  setChoice('subChoices',x.dataset.value);
+  const n=Number(x.dataset.value);
+  const rows=[...document.querySelectorAll('.server-row')];
+  while(rows.length<n){addRow();rows.push(document.querySelectorAll('.server-row')[document.querySelectorAll('.server-row').length-1]);}
+  while(document.querySelectorAll('.server-row').length>n)document.querySelector('.server-row:last-child').remove();
+});
+document.querySelectorAll('#deviceChoices .choice').forEach(x=>x.onclick=()=>setChoice('deviceChoices',x.dataset.value));
+$('addServer').onclick=()=>addRow();
+$('addBtn').onclick=openNew;
+$('cancelBtn').onclick=()=>dlg.close();
+$('search').oninput=render;
+$('sort').onchange=e=>{sortMode=e.target.value;render()};
+
+document.querySelectorAll('[data-status]').forEach(c=>c.onclick=()=>{
+  const v=c.dataset.status;
+  statusFilter=statusFilter===v?'all':v;
+  render();
+});
+document.querySelectorAll('[data-server]').forEach(c=>c.onclick=()=>{
+  const v=c.dataset.server;
+  serverFilter=serverFilter===v?'all':v;
+  render();
 });
 
-$('add').onclick=()=>{
-  editing=null;
-  $('formTitle').textContent='Ajouter un client';
-  $('name').value='';
-  $('server').value='Edge';
-  $('expiry').value='';
-  $('modal').style.display='flex';
-};
-
-$('cancel').onclick=()=>{
-  $('modal').style.display='none';
-};
-
-$('save').onclick=()=>{
-
+$('clientForm').addEventListener('submit',e=>{
+  e.preventDefault();
   const name=$('name').value.trim();
-  const server=$('server').value;
-  const expiry=$('expiry').value;
-
-  if(!name||!expiry){
-    alert('Veuillez remplir tous les champs.');
-    return;
-  }
-
-  if(editing){
-    const c=clients.find(x=>x.id===editing);
-
-    if(c){
-      c.name=name;
-      c.server=server;
-      c.expiry=expiry;
-    }
-
-  }else{
-
-    clients.push({
-      id:Date.now().toString(),
-      name,
-      server,
-      expiry
-    });
-
-  }
-
-  saveData();
-  $('modal').style.display='none';
-  render();
-};
-
-window.openDetail=id=>{
-  const c=clients.find(x=>x.id===id);
-  if(!c)return;
-
-  selectedId=id;
-
-  $('detailName').textContent=c.name;
-  $('detailServer').textContent=c.server;
-  $('detailExpiry').textContent=formatDate(c.expiry);
-
-  $('detailModal').style.display='flex';
-};
-
-$('closeDetail').onclick=()=>{
-  $('detailModal').style.display='none';
-};
-
-$('editDetail').onclick=()=>{
-  const c=clients.find(x=>x.id===selectedId);
-  if(!c)return;
-
-  editing=c.id;
-
-  $('formTitle').textContent='Modifier le client';
-  $('name').value=c.name;
-  $('server').value=c.server;
-  $('expiry').value=c.expiry;
-
-  $('detailModal').style.display='none';
-  $('modal').style.display='flex';
-};
-
-/*
-  RENOUVELLEMENT ACTUEL :
-  +30 jours
-*/
-$('renew').onclick=()=>{
-  const c=clients.find(x=>x.id===selectedId);
-  if(!c)return;
-
-  const base=daysLeft(c.expiry)<0 ? today() : dateFromString(c.expiry);
-
-  base.setDate(base.getDate()+30);
-
-  const y=base.getFullYear();
-  const m=String(base.getMonth()+1).padStart(2,'0');
-  const d=String(base.getDate()).padStart(2,'0');
-
-  c.expiry=`${y}-${m}-${d}`;
-
-  saveData();
-
-  $('detailExpiry').textContent=formatDate(c.expiry);
-
-  render();
-};
-
-$('delete').onclick=()=>{
-  const c=clients.find(x=>x.id===selectedId);
-  if(!c)return;
-
-  if(!confirm('Supprimer ce client ?'))return;
-
-  clients=clients.filter(x=>x.id!==selectedId);
-
-  saveData();
-
-  $('detailModal').style.display='none';
-  render();
-};
+  const rows=[...document.querySelectorAll('.server-row')];
+  const servers=rows.map(r=>({server:r.querySelector('.srv').value,expiry:r.querySelector('.exp').value})).filter(s=>s.expiry);
+  if(!name||!servers.length){alert('Entre le nom et au moins une date d’expiration.');return;}
+  const id=$('editId').value;
+  const obj={id:id||Date.now().toString(),name,subscriptions:servers.length,devices:getChoice('deviceChoices'),servers};
+  if(id){const i=clients.findIndex(c=>c.id===id);if(i>=0)clients[i]=obj;}
+  else clients.push(obj);
+  save();dlg.close();
+});
 
 render();
-</script>
-  
-<script>
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('./sw.js');
-}
 </script>
 </body>
 </html>
